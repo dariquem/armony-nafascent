@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nafascent & Amory | Tienda Oficial</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Font - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #4A4A4A;
+        }
+        .text-gold {
+            color: #C0A06B;
+        }
+        .bg-gold {
+            background-color: #C0A06B;
+        }
+        .hover\:bg-yellow-700:hover {
+            background-color: #A18055;
+        }
+        /* Color de fondo de las dos marcas combinadas */
+        .bg-brand-combo {
+            background-color: #F8F3E9;
+        }
+
+        /* Estilos para la imagen de fondo de Nafascent */
+        .nafascent-card {
+            background-image: url('https://solanda.teccial.com/images/fifi3.png');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        .nafascent-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.85);
+            z-index: 1;
+        }
+        .nafascent-content {
+            position: relative;
+            z-index: 2;
+        }
+        /* Estilos para la imagen de fondo de Armony */
+        .armony-card {
+            background-image: url('https://solanda.teccial.com/images/fifi4.png');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        .armony-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.85);
+            z-index: 1;
+        }
+        .armony-content {
+            position: relative;
+            z-index: 2;
+        }
+    </style>
+</head>
+<body class="bg-brand-combo">
+
+    <!-- Modal del Carrito -->
+    <div id="cart-modal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden z-50">
+        <div class="bg-white p-8 rounded-xl shadow-lg w-11/12 md:w-1/2 lg:w-1/3">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold">Carrito de Compras</h2>
+                <button onclick="closeModal()" class="text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
+            </div>
+            <div id="cart-items" class="max-h-80 overflow-y-auto mb-4">
+                <!-- Los productos se añadirán aquí con JavaScript -->
+            </div>
+            <div class="text-right font-bold text-xl mb-4">
+                Total: $<span id="cart-total">0.00</span>
+            </div>
+            <div class="flex justify-between">
+                <button onclick="checkout()" class="bg-green-500 text-white font-bold py-2 px-4 rounded-full hover:bg-green-600 transition-colors duration-300">Finalizar Compra</button>
+                <button onclick="closeModal()" class="bg-gray-500 text-white font-bold py-2 px-4 rounded-full hover:bg-gray-600 transition-colors duration-300">Continuar Comprando</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Encabezado (Header) -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex flex-col md:flex-row items-center justify-between">
+            <div class="flex items-center space-x-4 mb-4 md:mb-0">
+                <img src="Nafascent.jpg" alt="Logo Nafascent" class="h-12 rounded-full">
+                <img src="Amory.jpg" alt="Logo Amory" class="h-12 rounded-full">
+            </div>
+            <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6">
+                <a href="#inicio" class="text-gray-600 hover:text-gold transition-colors duration-300 font-medium">Inicio</a>
+                <a href="#nafascent" class="text-gray-600 hover:text-gold transition-colors duration-300 font-medium">Nafascent</a>
+                <a href="#amory" class="text-gray-600 hover:text-gold transition-colors duration-300 font-medium">Amory</a>
+                <a href="#combos" class="text-gray-600 hover:text-gold transition-colors duration-300 font-medium">Combos</a>
+                <button onclick="openModal()" class="text-gray-600 hover:text-gold transition-colors duration-300 font-medium">
+                    🛒 Carrito (<span id="cart-count">0</span>)
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+
+        <!-- Sección de Inicio (Hero) -->
+        <section id="inicio" class="bg-white rounded-xl shadow-md p-8 md:p-16 text-center mb-12" style="background-image: url('https://solanda.teccial.com/images/fifi2.png'); background-size: attachment; background-position: center;">
+            <div class="bg-white bg-opacity-70 p-6 rounded-lg">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">La fusión perfecta entre el cuidado personal y el bienestar del alma.</h1>
+                <p class="text-lg text-gray-700 max-w-2xl mx-auto">Experimenta la armonía de dos mundos: la sofisticación de Nafascent y la calidez de Amory, unidas para enriquecer tu vida.</p>
+            </div>
+        </section>
+
+        <!-- Introducción a las Marcas -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <!-- Nafascent Card -->
+            <!-- Nafascent Card con imagen de fondo -->
+            <div class="rounded-xl shadow-md p-8 nafascent-card">
+                <div class="nafascent-content">
+                    <h2 class="text-3xl font-bold text-gold mb-4">Nafascent</h2>
+                    <p class="text-gray-1000 mb-4">"Esencia del alma"</p>
+                    <p class="text-gray-1000">Nafascent es una destacada marca ecuatoriana dedicada a la elaboración de productos químicos orgánicos, comprometida con los más altos estándares de calidad para proteger tanto la salud como el medio ambiente. Nuestros productos no solo garantizan bienestar físico y emocional, sino que también se destacan por su elegancia en cada presentación.</p>
+                </div>
+            </div>
+
+            <!-- Amory Card -->
+            <div class="rounded-xl shadow-md p-8 armony-card">
+                <div class="nafascent-content">
+                    <h2 class="text-3xl font-bold text-gold mb-4">Amory</h2>
+                    <p class="text-gray-1000 mb-4">"Despierta tu poder interior"</p>
+                    <p class="text-black-10">Amory es una empresa ecuatoriana dedicada a la producción de velas decorativas y sales de baño. Cada producto está diseñado para evocar calma y bienestar, creando una atmósfera de serenidad que te permite conectar con tu ser interior y renovar tu energía.</p>
+                </div>    
+            </div>
+        </section>
+        
+        <!-- Sección de Pedido -->
+        <section id="pedido" class="bg-white rounded-xl shadow-md p-8 text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">¡Haz tu Pedido Ahora!</h2>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                Selecciona tus pedidos y agrégalos al carrito de compras. Si tienes dudas, escríbenos por WhatsApp.
+            </p>
+            <a href="https://wa.me/593999889091" target="_blank" class="inline-flex items-center mt-6 bg-green-500 text-white font-bold py-3 px-6 rounded-full hover:bg-green-600 transition-colors duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M16.75 3.19c-2.4-.92-4.1-.73-6.61.9-2.92 1.94-4.8 5.76-4.81 9.94-.01 2.37.7 4.54 2.14 6.2-.29.1-.56.17-.79.24l-2.02.58.59-2.02c.07-.23.14-.5.24-.79 1.66 1.44 3.83 2.15 6.2 2.14 4.18-.01 7.99-1.89 9.93-4.81 1.63-2.5 1.8-5.32.9-7.61C19.78 4.35 18.06 3.7 16.75 3.19zm-3.15 15.68c-1.85 0-3.5-.6-4.94-1.63L7 16.4l-1.57.45.45-1.57-1.46-1.46c-1.03-1.44-1.63-3.09-1.63-4.94 0-4.04 3.28-7.32 7.32-7.32s7.32 3.28 7.32 7.32c0 4.04-3.28 7.32-7.32 7.32zm-3.26-6.49c.2-.2.27-.5.17-.79-.1-.2-.25-.3-.4-.4l-.7-.4c-.15-.1-.2-.2-.2-.25s.1-.15.2-.2c.1-.05.2-.1.3-.15l.2-.1c.15-.05.3-.1.4-.15.15-.05.3-.1.5-.15.15-.05.3-.1.4-.1s.2-.1.35-.15c.1-.05.25-.1.4-.1s.2-.1.35-.15c.1-.05.25-.1.4-.1s.2-.1.4-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c.15-.05.3-.1.5-.1.2-.05.3-.1.5-.1s.3-.1.5-.15c1.02-.38 2.05-.66 3.08-.85a.75.75 0 01.37 0zM12 9.07a3.07 3.07 0 100 6.14 3.07 3.07 0 000-6.14zM12 18a6 6 0 100-12 6 6 0 000 12z" clip-rule="evenodd" />
+                </svg>
+                Escríbenos
+            </a>
+        </section>
+
+        <!-- Sección de Productos Nafascent -->
+        <section id="nafascent" class="mb-12">
+            <h2 class="text-3xl font-bold text-center text-gold mb-8">Productos Nafascent</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Producto 1 -->
+                <div class="bg-white rounded-xl shadow-md p-6 text-center" data-product-id="nafascent-01" data-price="2.50" data-name="Crema Corporal de Lavanda">
+                    <img src="https://solanda.teccial.com/images/producto/producto1.png" alt="Crema Corporal Nafascent" class="w-full h-auto object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">Jabón de Glicerina de Cannabis Sativa</h3>
+                    <p class="text-gray-500 text-sm mt-2 mb-4">Elaborado con aceite de cannabis sativa, tiene un alto poder antioxidante que ayuda a mantener la piel hidratada y joven. Es recomendado para pieles sensibles.</p>
+                    <span class="text-2xl font-bold text-gold">$2.50</span>
+                    <button onclick="addToCart(this)" class="w-full mt-4 bg-gold text-white font-bold py-2 px-4 rounded-full hover:bg-yellow-700 transition-colors duration-300">Añadir al carrito</button>
+                </div>
+                <!-- Producto 2 -->
+                <div class="bg-white rounded-xl shadow-md p-6 text-center" data-product-id="nafascent-02" data-price="2.50" data-name="Jabón de Cacao y Miel">
+                    <img src="https://solanda.teccial.com/images/producto/producto2.png" alt="Jabón Artesanal Nafascent" class="w-full h-auto object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">Jabón de Glicerina Miel de Abeja</h3>
+                    <p class="text-gray-500 text-sm mt-2 mb-4">Elaborado a base de miel, tiene un alto poder antibacteriano, antiinflamatorio y humectante, ideal para pieles irritadas, sensibles y secas.</p>
+                    <span class="text-2xl font-bold text-gold">$2.50</span>
+                    <button onclick="addToCart(this)" class="w-full mt-4 bg-gold text-white font-bold py-2 px-4 rounded-full hover:bg-yellow-700 transition-colors duration-300">Añadir al carrito</button>
+                </div>
+                <!-- Producto 3 -->
+                <div class="bg-white rounded-xl shadow-md p-6 text-center" data-product-id="nafascent-03" data-price="2.50" data-name="Aceite de Árbol de Té">
+                    <img src="https://solanda.teccial.com/images/producto/producto3.png" alt="Aceite Esencial Nafascent" class="w-full h-auto object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">Jabón de Piedra de Alumbre</h3>
+                    <p class="text-gray-500 text-sm mt-2 mb-4">Hecho con polvo de piedra de alumbre, tiene un alto poder desodorizante y aclarante, alivia las irritaciones y refresca la piel.</p>
+                    <span class="text-2xl font-bold text-gold">$2.50</span>
+                    <button onclick="addToCart(this)" class="w-full mt-4 bg-gold text-white font-bold py-2 px-4 rounded-full hover:bg-yellow-700 transition-colors duration-300">Añadir al carrito</button>
+                </div>
+                    <!-- Producto 4 -->
+                <div class="bg-white rounded-xl shadow-md p-6 text-center" data-product-id="nafascent-01" data-price="2.50" data-name="Crema Corporal de Lavanda">
+                    <img src="https://solanda.teccial.com/images/producto/producto4.png" alt="Crema Corporal Nafascent" class="w-full h-auto object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">Jabón de Piedra de Alumbre con Aceite de Menta</h3>
+                    <p class="text-gray-500 text-sm mt-2 mb-4">Es un jabón íntimo femenino, con gran poder desodorizante, antimicrobiano y antimicótico. Ayuda a mantener el pH natural de la zona íntima y es un blanqueador natural.</p>
+                    <span class="text-2xl font-bold text-gold">$2.50</span>
+                    <button onclick="addToCart(this)" class="w-full mt-4 bg-gold text-white font-bold py-2 px-4 rounded-full hover:bg-yellow-700 transition-colors duration-300">Añadir al carrito</button>
+                </div>
+                <!-- Producto 5 -->
+                <div class="bg-white rounded-xl shadow-md p-6 text-center" data-product-id="nafascent-02" data-price="2.50" data-name="Jabón de Cacao y Miel">
+                    <img src="https://solanda.teccial.com/images/producto/producto5.png" alt="Jabón Artesanal Nafascent" class="w-full h-auto object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">Jabón de Piedra de Alumbre con Aceite de Jojoba y Carbón Activo</h3>
+                    <p class="text-gray-500 text-sm mt-2 mb-4">Ideal para afeitarse. Hecho a base de polvo de piedra de alumbre, aceite de jojoba y carbón activo, regula el pH, protege de irritaciones y humecta la piel. Es un espumoso natural.</p>
+                    <span class="text-2xl font-bold text-gold">$2.50</span>
+                    <button onclick="addToCart(this)" class="w-full mt-4 bg-gold text-white font-bold py-2 px-4 rounded-full hover:bg-yellow-700 transition-colors duration-300">Añadir al carrito</button>
+                </div>
+                <!-- Producto 6 -->
+                <div class="bg-white rounded-xl shadow-md p-6 text-center" data-product-id="nafascent-03" data-price="2.50" data-name="Aceite de Árbol de Té">
+                    <img src="https://solanda.teccial.com/images/producto/producto6.png" alt="Aceite Esencial Nafascent" class="w-full h-auto object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">Jabón de Piedra de Alumbre y Carbón Activo</h3>
+                    <p class="text-gray-500 text-sm mt-2 mb-4">Ideal para pieles con acné. Elaborado a base de polvo de piedra de alumbre y carbón activo, calma irritaciones menores y reduce el sebo anormal de la piel, eliminando impurezas y aportando luminosidad al rostro.</p>
+                    <span class="text-2xl font-bold text-gold">$2.50</span>
+                    <button onclick="addToCart(this)" class="w-full mt-4 bg-gold text-white font-bold py-2 px-4 rounded-full hover:bg-yellow-700 transition-colors duration-300">Añadir al carrito</button>
+                </div>
+
+                    <!-- Producto 7 -->
+                <div class="bg-white rounded-xl shadow-md p-6 text-center" data-product-id="nafascent-01" data-price="2.50" data-name="Crema Corporal de Lavanda">
+                    <img src="https://solanda.teccial.com/images/producto/producto7.png" alt="Crema Corporal Nafascent" class="w-full h-auto object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">Jabón de Avena</h3>
+                    <p class="text-gray-500 text-sm mt-2 mb-4">Contiene antioxidantes naturales que ayudan a prevenir el envejecimiento prematuro de la piel. Es hidratante y emoliente, y mejora la apariencia de la piel.</p>
+                    <span class="text-2xl font-bold text-gold">$2.50</span>
+                    <button onclick="addToCart(this)" class="w-full mt-4 bg-gold text-white font-bold py-2 px-4 rounded-full hover:bg-yellow-700 transition-colors duration-300">Añadir al carrito</button>
+                </div>
+                <!-- Producto 8 -->
+                <div class="bg-white rounded-xl shadow-md p-6 text-center" data-product-id="nafascent-02" data-price="2.50" data-name="Jabón de Cacao y Miel">
+                    <img src="https://solanda.teccial.com/images/producto/producto8.png" alt="Jabón Artesanal Nafascent" class="w-full h-auto object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">Jabón de Lúpulo</h3>
+                    <p class="text-gray-500 text-sm mt-2 mb-4">Elaborado con lúpulo, estimula el colágeno de la piel, es antiinflamatorio y humectante. Neutraliza los radicales libres y es ideal para pieles maduras.</p>
+                    <span class="text-2xl font-bold text-gold">$2.50</span>
+                    <button onclick="addToCart(this)" class="w-full mt-4 bg-gold text-white font-bold py-2 px-4 rounded-full hover:bg-yellow-700 transition-colors duration-300">Añadir al carrito</button>
+                </div>
+                <!-- Producto 9 -->
+                <div class="bg-white rounded-xl shadow-md p-6 text-center" data-product-id="nafascent-03" data-price="2.50" data-name="Aceite de Árbol de Té">
+                    <img src="https://solanda.teccial.com/images/producto/producto9.png" alt="Aceite Esencial Nafascent" class="w-full h-auto object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">Jabón de Manzanilla</h3>
+                    <p class="text-gray-500 text-sm mt-2 mb-4">Elaborado a base de polvo de piedra de alumbre, aceite de jojoba y carbón activo. Es ideal para afeitarse, regula el pH, protege de irritaciones y humecta la piel. Es un espumoso natural.</p>
+                    <span class="text-2xl font-bold text-gold">$2.50</span>
+                    <button onclick="addToCart(this)" class="w-full mt-4 bg-gold text-white font-bold py-2 px-4 rounded-full hover:bg-yellow-700 transition-colors duration-300">Añadir al carrito</button>
+                </div>
+
+                <!-- Producto 10 -->
+                <div class="bg-white rounded-xl shadow-md p-6 text-center" data-product-id="nafascent-01" data-price="2.50" data-name="Crema Corporal de Lavanda">
+                    <img src="https://solanda.teccial.com/images/producto/producto10.png" alt="Crema Corporal Nafascent" class="w-full h-auto object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">Jabón de Sandía</h3>
+                    <p class="text-gray-500 text-sm mt-2 mb-4"> Elaborado con aceite esencial de sandía, limpia los poros obstruidos a profundidad, humecta y es rico en vitamina C. Tiene un alto poder para combatir el envejecimiento prematuro y es refrescante y calmante.</p>
+                    <span class="text-2xl font-bold text-gold">$2.50</span>
+                    <button onclick="addToCart(this)" class="w-full mt-4 bg-gold text-white font-bold py-2 px-4 rounded-full hover:bg-yellow-700 transition-colors duration-300">Añadir al carrito</button>
+                </div>
+                <!-- Producto 11 -->
+                <div class="bg-white rounded-xl shadow-md p-6 text-center" data-product-id="nafascent-02" data-price="2.50" data-name="Jabón de Cacao y Miel">
+                    <img src="https://solanda.teccial.com/images/producto/producto11.png" alt="Jabón Artesanal Nafascent" class="w-full h-auto object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">Jabón de Chocolate</h3>
+                    <p class="text-gray-500 text-sm mt-2 mb-4">Contiene antioxidantes naturales que ayudan a prevenir el envejecimiento prematuro de la piel. Es hidratante y emoliente, y mejora la apariencia de la piel.</p>
+                    <span class="text-2xl font-bold text-gold">$2.50</span>
+                    <button onclick="addToCart(this)" class="w-full mt-4 bg-gold text-white font-bold py-2 px-4 rounded-full hover:bg-yellow-700 transition-colors duration-300">Añadir al carrito</button>
+                </div>
+                <!-- Producto 12 -->
+                <div class="bg-white rounded-xl shadow-md p-6 text-center" data-product-id="nafascent-03" data-price="2.50" data-name="Aceite de Árbol de Té">
+                    <img src="https://solanda.teccial.com/images/producto/producto12.png" alt="Aceite Esencial Nafascent" class="w-full h-auto object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">Jabón de Miel y Sándalo</h3>
+                    <p class="text-gray-500 text-sm mt-2 mb-4">Sirve para controlar energías negativas.</p>
+                    <span class="text-2xl font-bold text-gold">$2.50</span>
+                    <button onclick="addToCart(this)" class="w-full mt-4 bg-gold text-white font-bold py-2 px-4 rounded-full hover:bg-yellow-700 transition-colors duration-300">Añadir al carrito</button>
+                </div>           
+            </div>
+        
+
+
+        </section>
+
+        <!-- Sección de Productos Amory -->
+        <section id="amory" class="mb-12">
+            <h2 class="text-3xl font-bold text-center text-gold mb-8">Productos Amory</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Producto 1 -->
+                <div class="bg-white rounded-xl shadow-md p-6 text-center" data-product-id="amory-01" data-price="5.00" data-name="Vela con Esencia de Coco">
+                    <img src="https://solanda.teccial.com/images/producto/sales1.jpg" alt="Vela Decorativa Amory" class="w-full h-auto object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">Sales de baño</h3>
+                    <p class="text-gray-500 text-sm mt-2 mb-4">Con aceites esenciales 100% naturales, 160 gr.</p>
+                    <span class="text-2xl font-bold text-gold">$5.00</span>
+                    <button onclick="addToCart(this)" class="w-full mt-4 bg-gold text-white font-bold py-2 px-4 rounded-full hover:bg-yellow-700 transition-colors duration-300">Añadir al carrito</button>
+                </div>
+                <!-- Producto 2 -->
+                <div class="bg-white rounded-xl shadow-md p-6 text-center" data-product-id="amory-02" data-price="4.50" data-name="Sales de Baño de Eucalipto">
+                    <img src="https://solanda.teccial.com/images/producto/sales2.jpg" alt="Sales de Baño Amory" class="w-full h-auto object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">Sales de baño</h3>
+                    <p class="text-gray-500 text-sm mt-2 mb-4">Con aceites esenciales 100% naturales, 140 gr.</p>
+                    <span class="text-2xl font-bold text-gold">$4.50</span>
+                    <button onclick="addToCart(this)" class="w-full mt-4 bg-gold text-white font-bold py-2 px-4 rounded-full hover:bg-yellow-700 transition-colors duration-300">Añadir al carrito</button>
+                </div>
+                <!-- Producto 3 
+                <div class="bg-white rounded-xl shadow-md p-6 text-center" data-product-id="amory-03" data-price="14.00" data-name="Vela de Jazmín y Vainilla">
+                    <img src="https://placehold.co/400x300/F4EADF/C0A06B?text=Vela+Jazmin" alt="Vela de Jazmín Amory" class="w-full h-auto object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">Vela de Jazmín y Vainilla</h3>
+                    <p class="text-gray-500 text-sm mt-2 mb-4">Aroma floral y dulce para un ambiente acogedor.</p>
+                    <span class="text-2xl font-bold text-gold">$14.00</span>
+                    <button onclick="addToCart(this)" class="w-full mt-4 bg-gold text-white font-bold py-2 px-4 rounded-full hover:bg-yellow-700 transition-colors duration-300">Añadir al carrito</button>
+                </div>-->
+            </div>
+        </section>
+
+        <!-- Sección de Combos -->
+        <section id="combos" class="mb-12">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Nuestros Kit Especiales</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Combo 1 -->
+                <div class="bg-white rounded-xl shadow-md p-6 text-center border-2 border-gold" data-product-id="combo-01" data-price="30.00" data-name="Combo Bienestar Total">
+                    <img src="https://solanda.teccial.com/images/producto/combo2.jpg" alt="Combo Relajación" class="w-full h-auto object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">Kit relajante</h3>
+                    <p class="text-gray-500 text-sm mt-2 mb-4">Velas 100% de soya con fragancia Coco y Ylang. Jabón de glicerina vegetal con extracto de Manzanilla, Aloe Vera y Aceites esenciales de lavnada y pachuli, hierbas eneldo. Sal de baño con aceites esenciales de lavanda y pachuli, hierba manzanilla.</p>
+                    <div class="flex items-center justify-center space-x-2">
+                        <span class="text-sm text-gray-400 line-through">$35.00</span>
+                        <span class="text-2xl font-bold text-gold">$30.00</span>
+                    </div>
+                    <button onclick="addToCart(this)" class="w-full mt-4 bg-gold text-white font-bold py-2 px-4 rounded-full hover:bg-yellow-700 transition-colors duration-300">Añadir al carrito</button>
+                </div>
+                <!-- Combo 2 -->
+                <div class="bg-white rounded-xl shadow-md p-6 text-center border-2 border-gold" data-product-id="combo-01" data-price="30.00" data-name="Combo Bienestar Total">
+                    <img src="https://solanda.teccial.com/images/producto/combo3.jpg" alt="Combo Relajación" class="w-full h-auto object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">Kit energizante</h3>
+                    <p class="text-gray-500 text-sm mt-2 mb-4">Velas 100% de soya con fragancia mandarina, mango y vainilla. Jabón de glicerina vegetal con extracto té verde y calendulay Aceites esenciales de azahar, limón y romero.</p>
+                    <div class="flex items-center justify-center space-x-2">
+                        <span class="text-sm text-gray-400 line-through">$35.00</span>
+                        <span class="text-2xl font-bold text-gold">$30.00</span>
+                    </div>
+                    <button onclick="addToCart(this)" class="w-full mt-4 bg-gold text-white font-bold py-2 px-4 rounded-full hover:bg-yellow-700 transition-colors duration-300">Añadir al carrito</button>
+                </div>
+                <!-- Combo 3 -->
+                <div class="bg-white rounded-xl shadow-md p-6 text-center border-2 border-gold" data-product-id="combo-01" data-price="30.00" data-name="Combo Bienestar Total">
+                    <img src="https://solanda.teccial.com/images/producto/combo2.jpg" alt="Combo Relajación" class="w-full h-auto object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">Kit Abundancia</h3>
+                    <p class="text-gray-500 text-sm mt-2 mb-4">Velas 100% de soya con fragancia neroli, narnaja. Jabón de glicerina vegetal con extracto té verde y calendulay Aceites esenciales de azahar y pachuli. Sal de balo con aceites esenciales de pachuli y romero, hierba, laurel y canela</p>
+                    <div class="flex items-center justify-center space-x-2">
+                        <span class="text-sm text-gray-400 line-through">$35.00</span>
+                        <span class="text-2xl font-bold text-gold">$30.00</span>
+                    </div>
+                    <button onclick="addToCart(this)" class="w-full mt-4 bg-gold text-white font-bold py-2 px-4 rounded-full hover:bg-yellow-700 transition-colors duration-300">Añadir al carrito</button>
+                </div>
+                <!-- Combo 4 -->
+                <div class="bg-white rounded-xl shadow-md p-6 text-center border-2 border-gold" data-product-id="combo-01" data-price="30.00" data-name="Combo Bienestar Total">
+                    <img src="https://solanda.teccial.com/images/producto/combo2.jpg" alt="Combo Relajación" class="w-full h-auto object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">Kit Salud</h3>
+                    <p class="text-gray-500 text-sm mt-2 mb-4">Velas 100% de soya con fragancia narnaja, lavanda. Jabón de glicerina vegetal con extracto calendula y aloe vera. Aceites esenciales de tomillo y eucalipto. Sal de balo con aceites esenciales de eucalipto, romero, romero y albahaca</p>
+                    <div class="flex items-center justify-center space-x-2">
+                        <span class="text-sm text-gray-400 line-through">$35.00</span>
+                        <span class="text-2xl font-bold text-gold">$30.00</span>
+                    </div>
+                    <button onclick="addToCart(this)" class="w-full mt-4 bg-gold text-white font-bold py-2 px-4 rounded-full hover:bg-yellow-700 transition-colors duration-300">Añadir al carrito</button>
+                </div>
+                <!-- Combo 5 -->
+                <div class="bg-white rounded-xl shadow-md p-6 text-center border-2 border-gold" data-product-id="combo-02" data-price="20.50" data-name="Combo Despierta tu Ser">
+                    <img src="https://solanda.teccial.com/images/producto/combo1.jpg" alt="Combo Energía" class="w-full h-auto object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">Kit para hombre</h3>
+                    <p class="text-gray-500 text-sm mt-2 mb-4">Jabón de 100 gr con carbón activo, caléndula y aceites esenciales 100% naturales. Acite de barba de 30 ml con aceites nutritivos para barba y aceites esenciales. Velas de 4 onz. a base de soya con fragancias seleccionadas libres de parabenos y toxicidad. Difusor de bambú de 10 ml para el auto o espacios reducidos.
+                    <div class="flex items-center justify-center space-x-2">
+                        <span class="text-sm text-gray-400 line-through">$22.00</span>
+                        <span class="text-2xl font-bold text-gold">$20.50</span>
+                    </div>
+                    <button onclick="addToCart(this)" class="w-full mt-4 bg-gold text-white font-bold py-2 px-4 rounded-full hover:bg-yellow-700 transition-colors duration-300">Añadir al carrito</button>
+                </div>
+               
+            </div>
+        </section>
+    </main>
+
+    <!-- Pie de página (Footer) -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="container mx-auto px-6 text-center">
+            <p class="mb-4">&copy; 2025 Nafascent & Amory. Todos los derechos reservados.</p>
+            <div class="flex justify-center mt-4 space-x-6">
+                <!-- Facebook -->
+                <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.772-1.63 1.563V12h2.77l-.44 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
+                    </svg>
+                </a>
+                <!-- Instagram -->
+                <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M12.315 2.404a.75.75 0 01.67 0 11.964 11.964 0 007.49 1.634 1.75 1.75 0 011.666 1.637 11.964 11.964 0 001.634 7.49.75.75 0 010 .67 11.964 11.964 0 00-1.634 7.49 1.75 1.75 0 01-1.666 1.637 11.964 11.964 0 00-7.49 1.634.75.75 0 01-.67 0 11.964 11.964 0 00-7.49-1.634 1.75 1.75 0 01-1.666-1.637 11.964 11.964 0 00-1.634-7.49.75.75 0 010-.67 11.964 11.964 0 001.634-7.49A1.75 1.75 0 014.825 4.038a11.964 11.964 0 007.49-1.634zM12 9.07a3.07 3.07 0 100 6.14 3.07 3.07 0 000-6.14zM12 18a6 6 0 100-12 6 6 0 000 12z" clip-rule="evenodd" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const cart = [];
+        const cartModal = document.getElementById('cart-modal');
+        const cartItemsContainer = document.getElementById('cart-items');
+        const cartTotalSpan = document.getElementById('cart-total');
+        const cartCountSpan = document.getElementById('cart-count');
+
+        function updateCart() {
+            cartItemsContainer.innerHTML = '';
+            let total = 0;
+
+            cart.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.classList.add('flex', 'justify-between', 'items-center', 'mb-2', 'p-2', 'bg-gray-100', 'rounded');
+                itemElement.innerHTML = `
+                    <span>${item.name} (${item.quantity})</span>
+                    <div class="flex items-center space-x-2">
+                        <span>$${(item.price * item.quantity).toFixed(2)}</span>
+                        <button onclick="removeFromCart('${item.id}')" class="text-red-500 hover:text-red-700 font-bold text-lg leading-none">&times;</button>
+                    </div>
+                `;
+                cartItemsContainer.appendChild(itemElement);
+                total += item.price * item.quantity;
+            });
+
+            cartTotalSpan.textContent = total.toFixed(2);
+            cartCountSpan.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+        }
+
+        function addToCart(button) {
+            const productCard = button.closest('[data-product-id]');
+            const productId = productCard.dataset.productId;
+            const productName = productCard.dataset.name;
+            const productPrice = parseFloat(productCard.dataset.price);
+
+            const existingItem = cart.find(item => item.id === productId);
+
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({
+                    id: productId,
+                    name: productName,
+                    price: productPrice,
+                    quantity: 1
+                });
+            }
+
+            updateCart();
+            openModal();
+        }
+
+        function removeFromCart(productId) {
+            const existingItem = cart.find(item => item.id === productId);
+
+            if (existingItem) {
+                existingItem.quantity--;
+                if (existingItem.quantity === 0) {
+                    const itemIndex = cart.findIndex(item => item.id === productId);
+                    cart.splice(itemIndex, 1);
+                }
+            }
+            updateCart();
+        }
+
+        function openModal() {
+            cartModal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            cartModal.classList.add('hidden');
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                const messageBox = document.createElement('div');
+                messageBox.innerHTML = `
+                    <div class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                        <div class="bg-white p-6 rounded-xl shadow-lg text-center">
+                            <p class="text-lg font-semibold mb-4">El carrito de compras está vacío.</p>
+                            <button onclick="this.closest('.fixed').remove()" class="bg-gold text-white font-bold py-2 px-4 rounded-full">Cerrar</button>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(messageBox);
+                return;
+            }
+
+            const phoneNumber = '593999889091'; // Puedes cambiar este número por el de las empresas
+            const messageHeader = 'Hola, me gustaría realizar el siguiente pedido:\n\n';
+            let messageBody = '';
+            let total = 0;
+
+            cart.forEach(item => {
+                messageBody += `${item.name} x ${item.quantity} - $${(item.price * item.quantity).toFixed(2)}\n`;
+                total += item.price * item.quantity;
+            });
+
+            const messageFooter = `\nTotal: $${total.toFixed(2)}\n\n¡Gracias!`;
+            const fullMessage = encodeURIComponent(messageHeader + messageBody + messageFooter);
+            
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${fullMessage}`;
+
+            window.open(whatsappUrl, '_blank');
+            closeModal();
+            cart.length = 0; // Limpiar el carrito después del pedido
+            updateCart();
+        }
+    </script>
+</body>
+</html>
