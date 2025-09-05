@@ -88,6 +88,49 @@
                 max-height: none;
             }
         }
+
+        /* Estilos para el carrito flotante en móviles */
+        .floating-cart {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 40;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #C0A06B;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        .floating-cart:hover {
+            transform: scale(1.05);
+        }
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #EF4444;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        @media (max-width: 767px) {
+            .floating-cart {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+
     </style>
 </head>
 <body class="bg-brand-combo">
@@ -98,7 +141,7 @@
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-4">
                     <img src="https://solanda.teccial.com/images/producto/Nafascent.jpg" alt="Logo Nafascent" class="h-12 rounded-full">
-                    <img src="https://solanda.teccial.com/images/producto/Amory.jpg" alt="Logo Amory" class="h-12 rounded-full">
+                    <img src="https://solanda.teccial.com/images/producto/Amory1.png" alt="Logo Amory" class="h-12 rounded-full">
                 </div>
                 
                 <!-- Botón de menú para móviles -->
@@ -132,6 +175,12 @@
             </div>
         </nav>
     </header>
+
+    <!-- Carrito flotante para móviles -->
+    <div class="floating-cart" onclick="openModal()">
+        <i class="fas fa-shopping-cart text-xl"></i>
+        <div class="cart-badge" id="floating-cart-count">0</div>
+    </div>
 
     <!-- Modal del Carrito -->
     <div id="cart-modal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden z-50">
@@ -423,13 +472,14 @@
     </footer>
 
     <script>
-        // ===== CÓDIGO ORIGINAL DEL CARRITO (sin modificar) =====
+        // ===== CÓDIGO ORIGINAL DEL CARRITO (modificado para actualizar el carrito flotante) =====
         const cart = [];
         const cartModal = document.getElementById('cart-modal');
         const cartItemsContainer = document.getElementById('cart-items');
         const cartTotalSpan = document.getElementById('cart-total');
         const cartCountSpan = document.getElementById('cart-count');
         const cartCountMobileSpan = document.getElementById('cart-count-mobile');
+        const floatingCartCount = document.getElementById('floating-cart-count');
 
         function updateCart() {
             cartItemsContainer.innerHTML = '';
@@ -453,6 +503,14 @@
             const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
             cartCountSpan.textContent = cartCount;
             cartCountMobileSpan.textContent = cartCount;
+            floatingCartCount.textContent = cartCount;
+            
+            // Ocultar/mostrar badge del carrito flotante
+            if (cartCount > 0) {
+                floatingCartCount.classList.remove('hidden');
+            } else {
+                floatingCartCount.classList.add('hidden');
+            }
         }
 
         function addToCart(button) {
@@ -476,6 +534,13 @@
 
             updateCart();
             openModal();
+            
+            // Efecto de confirmación visual
+            const floatingCart = document.querySelector('.floating-cart');
+            floatingCart.classList.add('animate-pulse');
+            setTimeout(() => {
+                floatingCart.classList.remove('animate-pulse');
+            }, 1000);
         }
 
         function removeFromCart(productId) {
@@ -535,7 +600,7 @@
             updateCart();
         }
         
-        // ===== CÓDIGO NUEVO PARA EL MENÚ ACORDEÓN EN MÓVILES =====
+        // ===== CÓDIGO PARA EL MENÚ ACORDEÓN EN MÓVILES =====
         document.getElementById('menu-toggle').addEventListener('click', function() {
             const menuItems = document.getElementById('mobile-menu-items');
             menuItems.classList.toggle('open');
@@ -559,6 +624,9 @@
                 document.getElementById('menu-toggle').querySelector('i').classList.add('fa-bars');
             });
         });
+        
+        // Inicializar el carrito
+        updateCart();
     </script>
 </body>
 </html>
